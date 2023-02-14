@@ -5,8 +5,11 @@ license = "MIT"
 documentation = "https://docs.rs/deadpool-amqprs"
 repository = "https://github.com/Cryptex-github/deadpool-amqprs"
 authors = ["Cryptex"]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
+# Basically just `amqprs`'s keywords and categories.
+keywords = ["amqp", "rabbitmq", "async", "tokio", "lock-free"]
+categories = ["network-programming", "asynchronous"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
