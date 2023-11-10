@@ -19,6 +19,14 @@ deadpool::managed_reexports!(
     ConfigError
 );
 
+struct Placeholder;
+
+impl std::fmt::Debug for Placeholder {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "..")
+    }
+}
+
 /// Type alias for [`Object`] in case Object isn't straight foward enough.
 pub type Connection = Object;
 
@@ -38,20 +46,31 @@ impl Manager {
 
 impl std::fmt::Debug for Manager {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("Manager").finish_non_exhaustive()
+        f.debug_struct("Manager")
+            .field("con_args", &Placeholder)
+            .finish()
     }
 }
 
 #[async_trait]
 impl managed::Manager for Manager {
+    /// Type of [`Object`]s that this [`Manager`] creates and recycles.
     type Type = amqprs::connection::Connection;
+    /// Error that this [`Manager`] can return when creating and/or recycling
+    /// [`Object`]s.
     type Error = amqprs::error::Error;
 
+    /// Creates a new instance of [`Manager::Type`].
     async fn create(&self) -> Result<Self::Type, Self::Error> {
         Ok(Self::Type::open(&self.con_args).await?)
     }
 
-    async fn recycle(&self, conn: &mut Self::Type) -> RecycleResult<Self::Error> {
+    /// Tries to recycle an instance of [`Manager::Type`].
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Manager::Error`] if the instance couldn't be recycled.
+    async fn recycle(&self, conn: &mut Self::Type, _: &Metrics) -> RecycleResult<Self::Error> {
         if conn.is_open() {
             Ok(())
         } else {

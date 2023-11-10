@@ -5,7 +5,7 @@ license = "MIT"
 documentation = "https://docs.rs/deadpool-amqprs"
 repository = "https://github.com/Cryptex-github/deadpool-amqprs"
 authors = ["Cryptex"]
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 # Basically just `amqprs`'s keywords and categories.
 keywords = ["amqp", "rabbitmq", "async", "tokio", "lock-free"]
@@ -15,4 +15,4 @@ categories = ["network-programming", "asynchronous"]
 
 [dependencies]
 amqprs = { version = "1.0", default-features = false }
-deadpool = { version = "0.9", default-features = false, features = ["managed", "rt_tokio_1"] }
+deadpool = { version = "0.10", default-features = false, features = ["managed", "rt_tokio_1"] }

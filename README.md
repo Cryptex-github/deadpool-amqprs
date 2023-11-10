@@ -6,6 +6,11 @@ Deadpool is a dead simple async pool for connections and objects of any type.
 
 This crate implements a [`deadpool`](https://crates.io/crates/deadpool) manager for [`amqprs`](https://crates.io/crates/amqprs).
 
+## Versions
+
+* v0.2.x - amqprs 0.9.x
+* v0.3.x - amqprs 0.10.x
+
 ## Example
 
 ```rs
