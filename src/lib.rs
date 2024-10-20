@@ -5,9 +5,9 @@ pub mod config;
 
 pub use amqprs;
 use amqprs::connection::OpenConnectionArguments;
+use deadpool::managed;
 pub use deadpool::managed::reexports::*;
 use deadpool::managed::{RecycleError, RecycleResult};
-use deadpool::{async_trait, managed};
 
 pub use config::{Config, ConfigError};
 
@@ -52,7 +52,6 @@ impl std::fmt::Debug for Manager {
     }
 }
 
-#[async_trait]
 impl managed::Manager for Manager {
     /// Type of [`Object`]s that this [`Manager`] creates and recycles.
     type Type = amqprs::connection::Connection;
@@ -62,7 +61,7 @@ impl managed::Manager for Manager {
 
     /// Creates a new instance of [`Manager::Type`].
     async fn create(&self) -> Result<Self::Type, Self::Error> {
-        Ok(Self::Type::open(&self.con_args).await?)
+        Self::Type::open(&self.con_args).await
     }
 
     /// Tries to recycle an instance of [`Manager::Type`].
@@ -74,7 +73,7 @@ impl managed::Manager for Manager {
         if conn.is_open() {
             Ok(())
         } else {
-            Err(RecycleError::StaticMessage("Connection closed."))
+            Err(RecycleError::message("Connection closed."))
         }
     }
 }
