@@ -14,5 +14,5 @@ categories = ["network-programming", "asynchronous"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-amqprs = { version = "1.0", default-features = false }
-deadpool = { version = "0.10", default-features = false, features = ["managed", "rt_tokio_1"] }
+amqprs = { version = "2.1", default-features = false }
+deadpool = { version = "0.12", default-features = false, features = ["managed", "rt_tokio_1"] }
